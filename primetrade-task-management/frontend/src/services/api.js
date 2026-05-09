@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:8082/api';
+cconst API_BASE =
+   import.meta.env.VITE_API_BASE_URL ||
+   'https://primetrade-task-manager-oqt1.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_BASE,
