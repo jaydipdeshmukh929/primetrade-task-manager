@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-cconst API_BASE =
-   import.meta.env.VITE_API_BASE_URL ||
-   'https://primetrade-task-manager-oqt1.onrender.com/api';
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ||
+  'http://localhost:8082/api';
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -16,7 +16,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle 401 — redirect to login
+// Handle 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -29,23 +29,25 @@ api.interceptors.response.use(
   }
 );
 
-// ─── Auth ────────────────────────────────────────
+// Auth API
 export const authAPI = {
   register: (data) => api.post('/v1/auth/register', data),
   login: (data) => api.post('/v1/auth/login', data),
 };
 
-// ─── Tasks ───────────────────────────────────────
+// Task API
 export const taskAPI = {
   create: (data) => api.post('/v1/tasks', data),
-  getMyTasks: (page = 0, size = 9) => api.get(`/v1/tasks/my?page=${page}&size=${size}&sort=createdAt,desc`),
-  getAllTasks: (page = 0, size = 9) => api.get(`/v1/tasks/all?page=${page}&size=${size}&sort=createdAt,desc`),
+  getMyTasks: (page = 0, size = 9) =>
+    api.get(`/v1/tasks/my?page=${page}&size=${size}&sort=createdAt,desc`),
+  getAllTasks: (page = 0, size = 9) =>
+    api.get(`/v1/tasks/all?page=${page}&size=${size}&sort=createdAt,desc`),
   getById: (id) => api.get(`/v1/tasks/${id}`),
   update: (id, data) => api.put(`/v1/tasks/${id}`, data),
   delete: (id) => api.delete(`/v1/tasks/${id}`),
 };
 
-// ─── Admin ───────────────────────────────────────
+// Admin API
 export const adminAPI = {
   getUsers: () => api.get('/v1/admin/users'),
   getStats: () => api.get('/v1/admin/stats'),
